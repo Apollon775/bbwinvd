@@ -96,7 +96,7 @@ int main(void)
         if (new_sock > 0)
         {
             
-            sprintf(logmsg, "host mit der Adresse %d hat sich verbunden", ntoa(addr.sin_addr));
+            sprintf(logmsg, "host mit der Adresse %s hat sich verbunden", inet_ntoa(addr.sin_addr));
             logwrite(logfile, logmsg, DLOG_MSG);
         }
             
