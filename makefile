@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=
-ROOT='pwd'
+ROOT=`pwd`
 LIBS=`mariadb_config --libs`
 INCLUDE=-I/usr/include/mariadb -I${ROOT}/include/
 OBJECT=include/query.c include/daemon.c
