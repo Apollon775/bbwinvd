@@ -39,7 +39,7 @@ int main(void)
     
     umask(0);
     
-    FILE *logfile = fopen("/home/caicepau/projects/bbwinvd/var.log", "a");
+    FILE *logfile = fopen("var.log", "a");
     
     if (logfile == NULL)
     {

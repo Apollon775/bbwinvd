@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=
-ROOT=/home/caicepau/projects/bbwinvd
-###LIBS=-L/usr/lib/mysql -lmysqlclient
+ROOT='pwd'
+LIBS=`mariadb_config --libs`
 INCLUDE=-I/usr/include/mariadb -I${ROOT}/include/
 OBJECT=include/query.c include/daemon.c
 TARGET=release/bbwinvd
