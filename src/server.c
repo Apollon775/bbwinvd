@@ -34,10 +34,16 @@ int main(void)
     pid = fork();
     
     if ( pid < 0)
+    {
+        printf("could not fork()");
         exit(EXIT_FAILURE);
+    }
     
     if (pid > 0)
+    {
+        printf("neuer child process %d", pid);
         exit(EXIT_SUCCESS);
+    }
     
     umask(0);
     
@@ -46,7 +52,6 @@ int main(void)
     if (logfile == NULL)
     {
        exit(EXIT_FAILURE);
-       return -1;
     }
     else
     {
