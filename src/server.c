@@ -48,7 +48,7 @@ int main(void)
     }
     else
     {
-        fputs("bbwinvd wurde gestartet auf", logfile);
+        fputs("bbwinvd wurde gestartet\n", logfile);
     } 
     
     sid = setsid();
@@ -65,6 +65,7 @@ int main(void)
     sock = bind_sock(NULL, &addr, 25001);
     if (sock <=  0)
     {
+        logwrite(logfile, "Socket konnte nicht werstellt werden", DLOG_ERR);
         exit(EXIT_FAILURE);
     }
     setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &y, sizeof(int));
