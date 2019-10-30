@@ -1,8 +1,8 @@
 CC=gcc
 CFLAGS=
 ROOT=/home/caicepau/projects/bbwinvd
-LIBS=-L/usr/lib/mysql -lmysqlclient
-INCLUDE=-I/usr/include/mysql -I${ROOT}/include/
+###LIBS=-L/usr/lib/mysql -lmysqlclient
+INCLUDE=-I/usr/include/mariadb -I${ROOT}/include/
 OBJECT=include/query.c include/daemon.c
 TARGET=release/bbwinvd
 SRC=src/server.c
