@@ -1,21 +1,31 @@
 CC=gcc
 CFLAGS=
+ROOT=/home/caicepau/projects/bbwinvd
 LIBS=-L/usr/lib/mysql -lmysqlclient
-INCLUDE=-I/usr/include/mysql -I./include/
-OBJECT=include/query.c include/connection.c
+INCLUDE=-I/usr/include/mysql -I${ROOT}/include/
+OBJECT=include/query.c include/daemon.c
 TARGET=release/bbwinvd
 SRC=src/server.c
 
-.PHONY=all bbwinvcl
+.PHONY: bbwinvd include debug bbwinvddebug
 
-server.o: ${SRC}
-	${CC} -c ${INCLUDE} ${SRC} 
 
 include: ${OBJECT}
 	${CC} -c ${INCLUDE} ${OBJECT}
 
-bbwinvcl: server.o
-	${CC} -o ${TARGET} *.o ${LIBS}
+server.o: ${SRC}
+	${CC} -c ${INCLUDE} ${SRC} 
 
-clean: bbwinvcl
-	rm server.o
+bbwinvd: server.o include
+	${CC} -o ${TARGET} *.o ${LIBS} ${INCLUDE} 
+
+bbwinvddebug: server.o include
+	${CC} -g -o ${TARGET} *.o ${LIBS} ${INCLUDE} 
+	
+release:  bbwinvd clean
+	echo 'release build wurde gebaut'
+	
+debug:  bbwinvddebug clean
+
+clean: include server.o
+	rm *.o

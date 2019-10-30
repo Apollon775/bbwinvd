@@ -2,6 +2,15 @@
 #include <stdlib.h>
 #include <mysql.h>
 
+#include "query.h"
+#include "daemon.h"
+
+int mysql_err_exit()
+{
+    
+    return -1;
+}
+
 MYSQL* connect_sql()
 {
     MYSQL *my;
@@ -9,25 +18,19 @@ MYSQL* connect_sql()
 
     if(my == NULL)
     {
-        fprintf(stderr, "Fehler beim Iitialisieren des Handles \n");
-        exit (EXIT_FAILURE);
+        return NULL;
     }
-
-    if( mysql_real_connect(
-        my,
-        "127.0.0.1",
-        "user",
-        "Qwert123",
-        "BBWInv",
-        0,
-        NULL,
-        0) == NULL)
-    {
-        fprintf(stderr, "Fehler mysql_real_connect(): %u (%s)\n",
-        mysql_errno(my), mysql_error(my));
-    }
-    else
-        printf("Erfolgreich mit dem MySQL-Server verbunden\n");
 
     return my;
+}
+
+int insert_data(MYSQL *handle, hdata_t *data)
+{
+    char * stm;
+    sprintf(stm, "INSERT INTO fiae2019(hostname) VALUES(%s)", data->name);
+    
+    if (mysql_query(handle, stm))
+        return mysql_err_exit();
+    
+    return 0;
 }
