@@ -1,7 +1,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <signal.h>
+#include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -12,8 +14,8 @@
 
 #include <mysql.h>
 
-#include "query.h"
-#include "daemon.h"
+#include <query.h>
+#include <daemon.h>
 
 
 int main(void)
@@ -27,7 +29,7 @@ int main(void)
     const int y = -1;
     
     hdata_t *data;
-    char *logmsg;
+    char* logmsg = malloc(BUFFER);
     
     pid = fork();
     
@@ -91,6 +93,12 @@ int main(void)
     while(1)
     {
         new_sock = accept(sock,(struct sockaddr*) &addr, &addrlen);
+        if (new_sock > 0)
+        {
+            
+            sprintf(logmsg, "host mit der Adresse %d hat sich verbunden", ntoa(addr.sin_addr));
+            logwrite(logfile, logmsg, DLOG_MSG);
+        }
             
         if (recv_data(new_sock, data) == 0)
         {

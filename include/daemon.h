@@ -11,6 +11,7 @@
 #define DLOG_ERR 1
 #define DLOG_WAR 2
 
+#define BUFFER 256
 
 //gibt den FD eines Sockets zurueck der entwerde mit inetaddr und auf port erstellt wird
 // wenn address == NULL damnn wird INADDR_ANY angenommen
