@@ -23,6 +23,10 @@ int logwrite(FILE* log, const char* msg, int flag)
     time_t now = time(NULL);
     char * date = ctime(&now);
     char * flagstr;
+    char * new_l;
+    
+    new_l = strchr(date, '\n');
+    memset(new_l, '\0' , sizeof(char));
     
     switch(flag)
     {

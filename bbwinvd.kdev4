@@ -1,3 +1,4 @@
 [Project]
+CreatedFrom=bbwinvd.kdev4
+Manager=KDevCustomMakeManager
 Name=bbwinvd
-Manager=KDevGenericManager
