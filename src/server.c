@@ -130,9 +130,11 @@ int main(void)
         else 
         {
             logwrite(logfile, "Verbindung mit den eingehenden host konnte nicht eingegangen werden", DLOG_ERR);
+            
             close(new_sock);
             continue;
         }
+        
         
         if (recv_data(new_sock, data) == 0)
         {
@@ -140,12 +142,14 @@ int main(void)
             {
                 sprintf(logmsg,"MySQL-Err %i: %s",
                 mysql_errno(my_handle),mysql_error(my_handle));
+                
                 logwrite(logfile, logmsg, DLOG_ERR);
             }
             else
             {
                 sprintf(logmsg, "%s %s: Daten erfolgreich in die Datenbank geschrieben",
                 inet_ntoa(addr.sin_addr), data->name);
+                
                 logwrite(logfile, logmsg, DLOG_MSG);
             }
         }

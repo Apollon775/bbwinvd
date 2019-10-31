@@ -30,10 +30,10 @@ int logwrite(FILE* log, const char* msg, int flag)
     
     switch(flag)
     {
-        case 0: flagstr = "msg"; break;
-        case 1: flagstr = "error"; break;
-        case 2: flagstr = "warning"; break;
-        default: flagstr = "msg"; break;
+        case 0: flagstr = "MSG"; break;
+        case 1: flagstr = "ERROR"; break;
+        case 2: flagstr = "WARN"; break;
+        default: flagstr = "MSG"; break;
     }
     
     fprintf(log, "[%s] [%s]: %s\n", date, flagstr, msg );
@@ -81,17 +81,22 @@ int bind_sock(char *inetaddr, struct sockaddr_in *address, uint16_t port)
 int recv_data(int sock, hdata_t *data)
 {
     char *buffer = malloc(BUFFER);
+    int size;
     
-    read(sock, (char*) buffer, BUFFER);
+    size = recv(sock, buffer, BUFFER -1, 0);
+    if (size > 0)
+    {
+            buffer[size] = '\0';
+    }
     
     if (buffer != NULL)
     {
         data->name = buffer;
-        write(sock, (int*) '0', 1);
+        send(sock, (char*)'0', sizeof(char), 0);
     }
     else
     {
-        write(sock, (int*) '1', 1);
+        send(sock, (char*)'1' , sizeof(char), 0);
         free(buffer);
         return -1;
     }
