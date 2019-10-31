@@ -64,7 +64,7 @@ int bind_sock(char *inetaddr, struct sockaddr_in *address, uint16_t port)
 
     if(bind(sock, (struct sockaddr*) address, sizeof(address)) != 0)
     {
-        return -1;
+        return -2;
     }
 
     return sock;

@@ -72,11 +72,16 @@ int main(void)
     close(STDOUT_FILENO);
     
     sock = bind_sock(NULL, &addr, 25001);
-    if (sock <=  0)
+    if (sock ==  -1)
     {
-        logwrite(logfile, "Socket konnte nicht werstellt werden", DLOG_ERR);
+        logwrite(logfile, "Socket konnte nicht erstellt werden", DLOG_ERR);
         exit(EXIT_FAILURE);
+    } else if ( sock == -2)
+    {
+        sprintf(logmsg, "bind(): Socket konnte auf Port %i nicht gebindet werden", ntohs(addr.sin_port)); 
+        logwrite(logfile, logmsg, DLOG_ERR);
     }
+    
     setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &y, sizeof(int));
     
     MYSQL *my_handle = connect_sql();
