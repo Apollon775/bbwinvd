@@ -56,7 +56,6 @@ int main(void)
        exit(EXIT_FAILURE);
     } else
     {
-        fputs("Hallo", logfile);
         logwrite(logfile, "bbwinvd wurde gestartet", DLOG_MSG);
     } 
     
