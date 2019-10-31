@@ -83,16 +83,12 @@ int recv_data(int sock, hdata_t *data)
     char *buffer = malloc(BUFFER);
     int size;
     
-    size = recv(sock, buffer, BUFFER -1, 0);
+    size = recv(sock, buffer, BUFFER-1, 0);
     if (size > 0)
     {
             buffer[size] = '\0';
-    }
-    
-    if (buffer != NULL)
-    {
-        data->name = buffer;
-        send(sock, (char*)'0', sizeof(char), 0);
+            data->name = buffer;
+            send(sock, (char*)'0', sizeof(char), 0);
     }
     else
     {
