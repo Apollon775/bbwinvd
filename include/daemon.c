@@ -33,6 +33,8 @@ int logwrite(FILE* log, const char* msg, int flag)
     }
     
     fprintf(log, "[%s] [%s]: %s\n", date, flagstr, msg );
+    
+    fflush(log);
 
     return 0;
 }
