@@ -27,8 +27,6 @@ int main(void)
     struct sockaddr_in addr;
     ssize_t size;
     const int y = -1;
-    
-    hdata_t *data;
    
     
     pid = fork();
@@ -105,21 +103,34 @@ int main(void)
     {
         fprintf(logfile, "Fehler mysql_real_connect(): %u (%s)\n",
         mysql_errno(my_handle), mysql_error(my_handle));
+        
+        mysql_close(my_handle);
+        fclose(logfile);
+        free(logmsg);
+        
+        exit(EXIT_FAILURE);
     }
     
     listen (sock, 5);
     addrlen = sizeof(struct sockaddr_in);
+    
+    hdata_t *data = hdata_init();
     
     while(1)
     {
         new_sock = accept(sock,(struct sockaddr*) &addr, &addrlen);
         if (new_sock > 0)
         {
-            
             sprintf(logmsg, "host mit der Adresse %s hat sich verbunden", inet_ntoa(addr.sin_addr));
             logwrite(logfile, logmsg, DLOG_MSG);
         }
-            
+        else 
+        {
+            logwrite(logfile, "Verbindung mit den eigehend host konnte nicht eingegagen werden", DLOG_ERR);
+            close(new_sock);
+            continue;
+        }
+        
         if (recv_data(new_sock, data) == 0)
         {
             insert_data(my_handle, data);
@@ -132,7 +143,7 @@ int main(void)
         
         close(new_sock);
     }
-    
+
     mysql_close(my_handle);
     fclose(logfile);
 

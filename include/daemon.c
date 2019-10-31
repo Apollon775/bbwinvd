@@ -86,8 +86,10 @@ int recv_data(int sock, hdata_t *data)
     else
     {
         write(sock, (int*) '0', 1);
+        free(buffer);
         return -1;
     }
     
+    free(buffer);
     return 0;
 }

@@ -34,3 +34,18 @@ int insert_data(MYSQL *handle, hdata_t *data)
     
     return 0;
 }
+
+hdata_t *hdata_init()
+{
+    hdata_t* data = malloc(sizeof(hdata_t));
+    
+    data->name = malloc(BUFFER);
+    
+    return data;
+}
+
+void hdata_del(hdata_t *data)
+{
+    free(data->name);
+    free(data);
+}
