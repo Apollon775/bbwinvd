@@ -47,10 +47,11 @@ int main(void)
     
     umask(0);
     
-    FILE *logfile = fopen("var.log", "a+");
+    FILE *logfile = fopen("var.log", "a");
     
     if (logfile == NULL)
     {
+       fopen("error.error", "w"); 
        exit(EXIT_FAILURE);
     }
     else
