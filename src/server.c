@@ -53,8 +53,7 @@ int main(void)
     {
        free(logmsg);
        exit(EXIT_FAILURE);
-    }
-    else
+    } else
     {
         logwrite(logfile, "bbwinvd wurde gestartet", DLOG_MSG);
     } 

@@ -32,7 +32,7 @@ int logwrite(FILE* log, const char* msg, int flag)
         default: flagstr = "msg"; break;
     }
     
-    fprintf(log, "[%s] %s: %s\n", date, flagstr, msg );
+    fprintf(log, "[%s] [%s]: %s\n", date, flagstr, msg );
 
     return 0;
 }

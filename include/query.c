@@ -27,7 +27,7 @@ MYSQL* connect_sql()
 int insert_data(MYSQL *handle, hdata_t *data)
 {
     char * stm;
-    sprintf(stm, "INSERT INTO fiae2019(hostname) VALUES(%s)", data->name);
+    sprintf(stm, "INSERT INTO fiae2019(Hostname) VALUES(%s)", data->name);
     
     if (mysql_query(handle, stm))
         return mysql_err_exit();
