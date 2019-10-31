@@ -47,7 +47,7 @@ int main(void)
     
     umask(0);
     
-    FILE *logfile = fopen("var.log", "a");
+    FILE *logfile = fopen("var.log", "a+");
     
     if (logfile == NULL)
     {
@@ -55,10 +55,11 @@ int main(void)
     }
     else
     {
-        fputs("bbwinvd wurde gestartet\n", logfile);
+        logwrite(logfile, "bbwinvd wurde gestartet", DLOG_MSG);
     } 
     
     sid = setsid();
+    
     if (sid < 0)
     {
         fputs("Fehler: sid konnte nicht korrekt initialisert werden\n", logfile);
