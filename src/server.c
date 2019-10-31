@@ -29,7 +29,7 @@ int main(void)
     const int y = -1;
     
     hdata_t *data;
-    char* logmsg = malloc(BUFFER);
+   
     
     pid = fork();
     
@@ -47,11 +47,13 @@ int main(void)
     
     umask(0);
     
-    FILE *logfile = fopen("var.log", "a");
+    char* logmsg = malloc(BUFFER);
+    
+    FILE *logfile = fopen("var.log", "a+");
     
     if (logfile == NULL)
     {
-       fopen("error.error", "w"); 
+       free(logmsg);
        exit(EXIT_FAILURE);
     }
     else
@@ -64,6 +66,8 @@ int main(void)
     if (sid < 0)
     {
         fputs("Fehler: sid konnte nicht korrekt initialisert werden\n", logfile);
+        fclose(logfile);
+        free(logmsg);
         exit(EXIT_FAILURE);
     }
     
@@ -75,14 +79,18 @@ int main(void)
     if (sock ==  -1)
     {
         logwrite(logfile, "Socket konnte nicht erstellt werden", DLOG_ERR);
+        free(logmsg);
+        fclose(logfile);
         exit(EXIT_FAILURE);
     } else if ( sock == -2)
     {
         sprintf(logmsg, "bind(): Socket konnte auf Port %i nicht gebindet werden", ntohs(addr.sin_port)); 
         logwrite(logfile, logmsg, DLOG_ERR);
+        fclose(logfile);
+        exit(EXIT_FAILURE);
     }
     
-    setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &y, sizeof(int));
+    setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &y, sizeof(int));
     
     MYSQL *my_handle = connect_sql();
     if( mysql_real_connect(
