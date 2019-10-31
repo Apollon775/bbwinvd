@@ -144,8 +144,8 @@ int main(void)
             }
             else
             {
-                sprintf(logmsg, "%s: Daten erfolgreich in die Datenbank geschrieben",
-                inet_ntoa(addr.sin_addr));
+                sprintf(logmsg, "%s %s: Daten erfolgreich in die Datenbank geschrieben",
+                inet_ntoa(addr.sin_addr), data->name);
                 logwrite(logfile, logmsg, DLOG_MSG);
             }
         }
