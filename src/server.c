@@ -27,6 +27,7 @@ int main(void)
     struct sockaddr_in addr;
     ssize_t size;
     const int y = -1;
+    FILE *logfile;
    
     
     pid = fork();
@@ -47,7 +48,7 @@ int main(void)
     
     char* logmsg = malloc(BUFFER);
     
-    FILE *logfile = fopen("var.log", "a+");
+    logfile = fopen("var.log", "a");
     
     if (logfile == NULL)
     {
@@ -55,6 +56,7 @@ int main(void)
        exit(EXIT_FAILURE);
     } else
     {
+        fputs("Hallo", logfile);
         logwrite(logfile, "bbwinvd wurde gestartet", DLOG_MSG);
     } 
     
@@ -75,10 +77,12 @@ int main(void)
     sock = bind_sock(NULL, &addr, 6661);
     if (sock ==  -1)
     {
+
         logwrite(logfile, "Socket konnte nicht erstellt werden", DLOG_ERR);
         free(logmsg);
         fclose(logfile);
         exit(EXIT_FAILURE);
+        
     } else if ( sock == -2)
     {
         sprintf(logmsg, "bind(): Socket konnte auf Port %i nicht gebindet werden", ntohs(addr.sin_port)); 
