@@ -130,7 +130,7 @@ int main(void)
         }
         else 
         {
-            logwrite(logfile, "Verbindung mit den eigehend host konnte nicht eingegagen werden", DLOG_ERR);
+            logwrite(logfile, "Verbindung mit den eingehenden host konnte nicht eingegangen werden", DLOG_ERR);
             close(new_sock);
             continue;
         }
@@ -144,6 +144,9 @@ int main(void)
             sprintf(logmsg,"Vom Client bekommene Daten fehlerhaft");
             logwrite(logfile, logmsg, DLOG_ERR);
         }
+        
+        sprintf(logmsg, "Session mit host %s geschlossen", inet_ntoa(addr.sin_addr));
+        logwrite(logfile, logmsg, DLOG_MSG);
         
         close(new_sock);
     }
