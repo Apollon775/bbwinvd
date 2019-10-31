@@ -15,6 +15,8 @@ MYSQL* connect_sql();
 
 int insert_data(MYSQL* handle, hdata_t *data);
 
+hdata_t *hdata_init();
 
+void hdata_del(hdata_t *data)
 
 
