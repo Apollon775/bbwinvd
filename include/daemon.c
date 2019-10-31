@@ -62,7 +62,7 @@ int bind_sock(char *inetaddr, struct sockaddr_in *address, uint16_t port)
     address->sin_family = AF_INET;
     address->sin_port = htons(port);
 
-    if(bind(sock, (struct sockaddr*) address, sizeof(address)) != 0)
+    if(bind(sock, (struct sockaddr*) address, sizeof(*address)) != 0)
     {
         return -2;
     }

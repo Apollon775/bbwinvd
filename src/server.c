@@ -75,7 +75,7 @@ int main(void)
     close(STDERR_FILENO);
     close(STDOUT_FILENO);
     
-    sock = bind_sock(NULL, &addr, 25001);
+    sock = bind_sock(NULL, &addr, 6661);
     if (sock ==  -1)
     {
         logwrite(logfile, "Socket konnte nicht erstellt werden", DLOG_ERR);
