@@ -81,11 +81,11 @@ int recv_data(int sock, hdata_t *data)
     if (buffer != NULL)
     {
         data->name = buffer;
-        write(sock, (int*) '1', 1);
+        write(sock, (int*) '0', 1);
     }
     else
     {
-        write(sock, (int*) '0', 1);
+        write(sock, (int*) '1', 1);
         free(buffer);
         return -1;
     }
