@@ -20,7 +20,8 @@
 
 int logwrite(FILE* log, const char* msg, int flag)
 {
-    char * now = ctime(time(NULL));
+    time_t now = time(NULL);
+    char * date = ctime(&now);
     char * flagstr;
     
     switch(flag)
@@ -31,7 +32,7 @@ int logwrite(FILE* log, const char* msg, int flag)
         default: flagstr = "msg"; break;
     }
     
-    fprintf(log, "[%s] %s: %s\n", now, flagstr, msg );
+    fprintf(log, "[%s] %s: %s\n", date, flagstr, msg );
 
     return 0;
 }
