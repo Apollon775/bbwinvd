@@ -30,7 +30,7 @@ int insert_data(MYSQL *handle, hdata_t *data)
     sprintf(stm, "INSERT INTO fiae2019(Hostname) VALUES(%s);", data->name);
     
     if (mysql_query(handle, stm))
-        return mysql_err_exit();
+        return -1;
     
     return 0;
 }

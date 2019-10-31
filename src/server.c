@@ -136,7 +136,18 @@ int main(void)
         
         if (recv_data(new_sock, data) == 0)
         {
-            insert_data(my_handle, data);
+            if(!insert_data(my_handle, data))
+            {
+                sprintf(logmsg,"MySQL-Err %i: %s",
+                mysql_errno(my_handle),mysql_error(my_handle));
+                logwrite(logfile, logmsg, DLOG_ERR);
+            }
+            else
+            {
+                sprintf(logmsg, "%s: Daten erfolgreich in die Datenbank geschrieben",
+                inet_ntoa(addr.sin_addr));
+                logwrite(logfile, logmsg, DLOG_MSG);
+            }
         }
         else
         {
