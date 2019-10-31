@@ -88,6 +88,7 @@ int main(void)
         sprintf(logmsg, "bind(): Socket konnte auf Port %i nicht gebindet werden", ntohs(addr.sin_port)); 
         logwrite(logfile, logmsg, DLOG_ERR);
         fclose(logfile);
+        free(logmsg);
         exit(EXIT_FAILURE);
     }
     
