@@ -88,7 +88,7 @@ int recv_data(int sock, hdata_t *data, FILE *logfile)
             buffer[size] = '\0';
             strcpy(data->name, buffer);
             size = send(sock, 0, sizeof(int), 0);
-            if (size != sizeof(int))
+            if (size == sizeof(int))
             {
                 logwrite(logfile, "Send() error", DLOG_MSG);
                 return -1;
@@ -107,7 +107,7 @@ int recv_data(int sock, hdata_t *data, FILE *logfile)
         buffer[size] = '\0';
         strcpy(data->kernel, buffer);
         size = send(sock, 0, sizeof(int), 0);
-        if (size != sizeof(int))
+        if (size == sizeof(int))
         {
             logwrite(logfile, "Send() error", DLOG_MSG);
             return -1;
