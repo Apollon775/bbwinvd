@@ -14,7 +14,7 @@ Name=GCC
 
 [CustomDefinesAndIncludes][ProjectPath0][Includes]
 1=/usr/include/mysql/
-2=/home/caicepau/projects/bbwinvd/
+2=/home/caicepau/projects/bbwinvd/include
 
 [Project]
 VersionControlSupport=kdevgit
