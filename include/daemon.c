@@ -16,6 +16,9 @@
 
 #define BUFFER 256
 
+#define ACC "ACC"
+#define ERR "ERR"
+
 
 
 int logwrite(FILE* log, const char* msg, int flag)
@@ -88,11 +91,10 @@ int recv_data(int sock, hdata_t *data, FILE *logfile)
         buffer[size] = '\0';
         strcpy(data->name, buffer);
         
-        size = send(sock, (char*)'0', sizeof(char), 0);
-        if (size == sizeof(int))
+        size = send(sock, (char*)ACC, strlen(ACC), 0);
+        if (size != strlen(ACC))
         {
             logwrite(logfile, "Send() error", DLOG_MSG);
-            return -1;
         }
     }
     else
@@ -108,15 +110,13 @@ int recv_data(int sock, hdata_t *data, FILE *logfile)
         buffer[size] = '\0';
         strcpy(data->kernel, buffer);
         
-        size = send(sock, (char*)'0', sizeof(char), 0);
-        if (size == sizeof(int))
+        size = send(sock, (char*)ACC, strlen(ACC), 0);
+        if (size != strlen(ACC))
         {
             logwrite(logfile, "Send() error", DLOG_MSG);
-            return -1;
         }
         
     }
-    
     
     
     return 0;
