@@ -138,7 +138,7 @@ int main(void)
         
         if (recv_data(new_sock, data, logfile) == 0)
         {
-            if(!insert_data(my_handle, data))
+            if(insert_data(my_handle, data))
             {
                 sprintf(logmsg,"MySQL-Err %i: %s",
                 mysql_errno(my_handle),mysql_error(my_handle));
