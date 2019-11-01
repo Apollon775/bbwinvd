@@ -77,7 +77,6 @@ int bind_sock(char *inetaddr, struct sockaddr_in *address, uint16_t port)
 }
 
 
-
 int recv_data(int sock, hdata_t *data, FILE *logfile)
 {
     char *buffer = malloc(BUFFER);
@@ -87,7 +86,7 @@ int recv_data(int sock, hdata_t *data, FILE *logfile)
     if (size > 0)
     {
             buffer[size] = '\0';
-            data->name = buffer;
+            strcpy(data->name, buffer);
             size = send(sock, 0, sizeof(int), 0);
             if (size != sizeof(int))
             {
@@ -101,6 +100,21 @@ int recv_data(int sock, hdata_t *data, FILE *logfile)
         free(buffer);
         return -1;
     }
+    
+    size = recv(sock, buffer, BUFFER-1,0);
+    if (size > 0)
+    {
+        buffer[size] = '\0';
+        strcpy(data->kernel, buffer);
+        size = send(sock, 0, sizeof(int), 0);
+        if (size != sizeof(int))
+        {
+            logwrite(logfile, "Send() error", DLOG_MSG);
+            return -1;
+        }
+    }
+    
+    
     
     return 0;
 }

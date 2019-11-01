@@ -27,7 +27,7 @@ MYSQL* connect_sql()
 int insert_data(MYSQL *handle, hdata_t *data)
 {
     char stm[BUFFER];
-    sprintf(stm, "INSERT INTO fiae2019(Hostname) VALUES(\'%s\')", data->name);
+    sprintf(stm, "INSERT INTO fiae2019(Hostname, OS) VALUES(\'%s\', \'%s\')", data->name, data->kernel);
     
     if (mysql_query(handle, stm))
         return -1;
@@ -39,6 +39,9 @@ hdata_t *hdata_init()
 {
     hdata_t *data = malloc(sizeof(hdata_t));
 
+    data->name = malloc(BUFFER);
+    data->kernel = malloc(BUFFER);
+    
     return data;
 }
 
