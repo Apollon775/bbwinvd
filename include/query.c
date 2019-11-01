@@ -41,6 +41,7 @@ hdata_t *hdata_init()
 
     data->name = malloc(BUFFER);
     data->kernel = malloc(BUFFER);
+    data->cpu = malloc(BUFFER);
     
     return data;
 }

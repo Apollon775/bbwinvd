@@ -8,6 +8,7 @@ struct _hostdata
 {
     char* name;
     char* kernel;
+    char* cpu;
 };
 
 typedef struct _hostdata hdata_t;
