@@ -88,11 +88,9 @@ int recv_data(int sock, hdata_t *data, FILE *logfile)
     {
             buffer[size] = '\0';
             data->name = buffer;
-            logwrite(logfile, buffer, DLOG_MSG);
-            size = send(sock, (char*)'0', sizeof(char), 0);
-            if (size != sizeof(char))
+            size = send(sock, 0, sizeof(int), 0);
+            if (size != sizeof(int))
             {
-                free(buffer);
                 logwrite(logfile, "Send() error", DLOG_MSG);
                 return -1;
             }
@@ -104,6 +102,5 @@ int recv_data(int sock, hdata_t *data, FILE *logfile)
         return -1;
     }
     
-    free(buffer);
     return 0;
 }
