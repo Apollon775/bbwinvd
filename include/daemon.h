@@ -21,7 +21,7 @@ int bind_sock(char *inetaddr, struct sockaddr_in *address, uint16_t port);
 //Funktion zum Schreiben von von Log-eintraegen
 int logwrite(FILE* log, const char  *msg, int flag);
 
-int recv_data(int sock, hdata_t *data);
+int recv_data(int sock, hdata_t *data, FILE *logfile);
 
 
 

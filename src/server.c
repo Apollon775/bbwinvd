@@ -136,7 +136,7 @@ int main(void)
         }
         
         
-        if (recv_data(new_sock, data) == 0)
+        if (recv_data(new_sock, data, logfile) == 0)
         {
             if(!insert_data(my_handle, data))
             {
