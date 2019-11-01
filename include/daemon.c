@@ -88,7 +88,12 @@ int recv_data(int sock, hdata_t *data)
     {
             buffer[size] = '\0';
             data->name = buffer;
-            send(sock, (char*)'0', sizeof(char), 0);
+            size = send(sock, (char*)'0', sizeof(char), 0);
+            if (size != sizeof(char))
+            {
+                free(buffer);
+                return -1;
+            }
     }
     else
     {

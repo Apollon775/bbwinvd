@@ -37,9 +37,7 @@ int insert_data(MYSQL *handle, hdata_t *data)
 
 hdata_t *hdata_init()
 {
-    hdata_t* data = malloc(sizeof(hdata_t));
-    
-    data->name = malloc(BUFFER);
+    hdata_t *data = malloc(sizeof(hdata_t));
 
     return data;
 }
