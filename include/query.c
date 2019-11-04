@@ -27,7 +27,7 @@ MYSQL* connect_sql()
 int insert_data(MYSQL *handle, hdata_t *data)
 {
     char stm[BUFFER];
-    sprintf(stm, "UPDATE fiae2019 SET OS = \'%s\' WHERE Hostname = \'%s\'; IF @@ROWCOUNT IS 0  BEGIN INSERT INTO fiae2019(Hostname, OS) VALUES(\'%s\', \'%s\'); END",
+    sprintf(stm, "UPDATE fiae2019 SET OS = \'%s\' WHERE Hostname = \'%s\'; IF @@ROWCOUNT IS 0  THEN INSERT INTO fiae2019(Hostname, OS) VALUES(\'%s\', \'%s\'); ",
             data->kernel, data->name, data->name, data->kernel);
     
     if (mysql_query(handle, stm))
@@ -35,7 +35,7 @@ int insert_data(MYSQL *handle, hdata_t *data)
     
     for (int i = 0; data->interfaces[i] != NULL; ++i)
     {    
-        sprintf(stm, "UPDATE interfaces SET IPv4 = \'%s\', Hostname = \'%s\', Eingegeben am = NOW() WHERE MAC = \'%s\' ; IF @@ROWCOUNT IS 0 BEGIN INSERT INTO interfaces(MAC, IPv4, Hostname) VALUES(\'%s\', \'%s\', \'%s\') ; END",
+        sprintf(stm, "UPDATE interfaces SET IPv4 = \'%s\', Hostname = \'%s\', Eingegeben am = NOW() WHERE MAC = \'%s\' ; IF @@ROWCOUNT IS 0 THEN INSERT INTO interfaces(MAC, IPv4, Hostname) VALUES(\'%s\', \'%s\', \'%s\') ; ",
                 data->interfaces[i]->ipv4, data->name, data->interfaces[i]->physical, data->interfaces[i]->physical, data->interfaces[i]->ipv4, data->name);
     }
     if (mysql_query(handle, stm))
