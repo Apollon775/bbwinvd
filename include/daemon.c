@@ -85,6 +85,8 @@ int recv_data(int sock, hdata_t *data, FILE *logfile)
     char *buffer = malloc(BUFFER);
     int size;
     
+//--------------- Hostname------------
+    
     size = recv(sock, buffer, BUFFER-1, 0);
     if (size > 0)
     {
@@ -104,6 +106,8 @@ int recv_data(int sock, hdata_t *data, FILE *logfile)
         return -1;
     }
     
+//--------------Kernel--------------
+    
     size = recv(sock, buffer, BUFFER-1,0);
     if (size > 0)
     {
@@ -118,6 +122,36 @@ int recv_data(int sock, hdata_t *data, FILE *logfile)
         
     }
     
+ //-----------Interfaces--------------
+ 
+    do
+    {
+        int index;
+        
+        size = recv(sock, buffer, BUFFER-1, 0);
+        if (size > 0)
+        {
+            buffer[size] = '\0';
+            index = if_pushback(data);
+            strcpy(data->interfaces[index]->physical, buffer);
+        }
+        
+        size = recv(sock, buffer, BUFFER-1, 0);
+        if (size > 0)
+        {
+            buffer[size] = '\0';
+            strcpy(data->interfaces[index]->ipv4, buffer);
+        }
+        
+        size = recv(sock, buffer, BUFFER-1, 0);
+        if (size > 0)
+        {
+            buffer[size] = '\0';
+        }
+        
+    } while (strcmp(buffer, "NXT"));
+    
+ 
     
     return 0;
 }

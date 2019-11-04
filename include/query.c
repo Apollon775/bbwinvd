@@ -42,12 +42,53 @@ hdata_t *hdata_init()
     data->name = malloc(BUFFER);
     data->kernel = malloc(BUFFER);
     data->cpu = malloc(BUFFER);
+    data->interfaces = malloc(sizeof(ifdata_t **));
+    data->ifcount = 0;
+    data->ifcap = 1;
     
     return data;
+}
+
+void ifdata_del(ifdata_t **interfaces)
+{
+    for (int i = 0; interfaces[i] != NULL; ++i)
+    {
+        free(interfaces[i]->physical);
+        free(interfaces[i]->ipv4);
+    }
+    
+    free(interfaces);
+    
 }
 
 void hdata_del(hdata_t *data)
 {
     free(data->name);
+    free(data->kernel);
+    free(data->cpu);
+    
+    ifdata_del(data->interfaces);
+    
     free(data);
 }
+
+int if_pushback( hdata_t *data)
+{
+    int index;
+        
+    if (data->ifcount > data->ifcap)
+    {
+        data->interfaces = realloc(data->interfaces, data->ifcap * 2);
+        data->ifcap *= 2;
+    }
+    
+    data->interfaces[data->ifcount+1] = malloc (sizeof(ifdata_t));
+    index = ++data->ifcount;
+    
+    return index;
+}
+
+
+
+
+
