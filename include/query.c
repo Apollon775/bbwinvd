@@ -32,6 +32,12 @@ int insert_data(MYSQL *handle, hdata_t *data)
     if (mysql_query(handle, stm))
         return -1;
     
+    for (int i = 0; data->interfaces[i] != NULL; ++i)
+    {    
+        sprintf(stm, "INSERT INTO interfaces(MAC, \'IPv4\', \'Hostname\', \'Eingetragen am\') VALUES(\'%s\' \'%s\' \'%s\' NOW())",
+                data->interfaces[i]->physical, data->interfaces[i]->ipv4, data->name);
+    }
+    
     return 0;
 }
 
