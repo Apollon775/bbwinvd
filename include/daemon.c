@@ -132,7 +132,9 @@ int recv_data(int sock, hdata_t *data, FILE *logfile)
         if (size > 0)
         {
             buffer[size] = '\0';
+            logwrite(logfile, "vor pushback", DLOG_MSG);
             index = if_pushback(data);
+            logwrite(logfile, "nach pushback", DLOG_MSG);
             strcpy(data->interfaces[index]->physical, buffer);
         }
         

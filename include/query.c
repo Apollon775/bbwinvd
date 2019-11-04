@@ -42,6 +42,7 @@ hdata_t *hdata_init()
     data->name = malloc(BUFFER);
     data->kernel = malloc(BUFFER);
     data->cpu = malloc(BUFFER);
+    
     data->interfaces = malloc(sizeof(ifdata_t **));
     data->ifcount = 0;
     data->ifcap = 1;
@@ -83,7 +84,9 @@ int if_pushback( hdata_t *data)
     }
     
     data->interfaces[data->ifcount] = malloc (sizeof(ifdata_t));
-    index = data->ifcount++;
+    index = data->ifcount;
+    
+    data->ifcount++;
     
     return index;
 }
