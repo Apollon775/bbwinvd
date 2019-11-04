@@ -85,6 +85,8 @@ int if_pushback( hdata_t *data)
     
     data->interfaces[data->ifcount] = malloc (sizeof(ifdata_t));
     index = data->ifcount;
+    data->interfaces[index]->ipv4 = malloc(BUFFER);
+    data->interfaces[index]->physical = malloc(BUFFER);
     
     data->ifcount++;
     
