@@ -27,16 +27,16 @@ MYSQL* connect_sql()
 int insert_data(MYSQL *handle, hdata_t *data)
 {
     char stm[BUFFER];
-    sprintf(stm, "INSERT INTO fiae2019(Hostname, OS) VALUES(\'%s\', \'%s\')", data->name, data->kernel);
+    sprintf(stm, "UPDATE fiae2019 SET(OS = \'%s\') WHERE Hostname = \'%s\' IF @@ROWCOUNT=0 INSERT INTO fiae2019(Hostname, OS) VALUES(\'%s\', \'%s\')",
+            data->kernel, data->name, data->name, data->kernel);
     
     if (mysql_query(handle, stm))
         return -1;
     
     for (int i = 0; data->interfaces[i] != NULL; ++i)
     {    
-        sprintf(stm, "INSERT INTO interfaces(MAC, IPv4, Hostname) VALUES(\'%s\', \'%s\', \'%s\')",
-                
-                data->interfaces[i]->physical, data->interfaces[i]->ipv4, data->name);
+        sprintf(stm, "UPDATE interfaces SET(IPv4 = \'%s\', Hostname = \'%s\', Eingegeben am = NOW()) WHERE MAC = \'%s\' IF @@ROWCOUNT=0 INSERT INTO interfaces(MAC, IPv4, Hostname) VALUES(\'%s\', \'%s\', \'%s\')",
+                data->interfaces[i]->ipv4, data->name, data->interfaces[i]->physical, data->interfaces[i]->physical, data->interfaces[i]->ipv4, data->name);
     }
     if (mysql_query(handle, stm))
         return -1;
