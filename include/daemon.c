@@ -149,6 +149,9 @@ int recv_data(int sock, hdata_t *data, FILE *logfile)
             buffer[size] = '\0';
         }
         
+        logwrite(logfile, data->interfaces[index]->ipv4, DLOG_MSG);
+        
+        
     } while (!(strcmp(buffer, "NXT")));
     
  
