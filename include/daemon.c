@@ -149,9 +149,11 @@ int recv_data(int sock, hdata_t *data, FILE *logfile)
             buffer[size] = '\0';
         }
         
-    } while (strcmp(buffer, "NXT"));
+    } while (!(strcmp(buffer, "NXT")));
     
  
+    
+    
     
     return 0;
 }

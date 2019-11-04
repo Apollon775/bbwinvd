@@ -82,8 +82,8 @@ int if_pushback( hdata_t *data)
         data->ifcap *= 2;
     }
     
-    data->interfaces[data->ifcount+1] = malloc (sizeof(ifdata_t));
-    index = ++data->ifcount;
+    data->interfaces[data->ifcount] = malloc (sizeof(ifdata_t));
+    index = data->ifcount++;
     
     return index;
 }
