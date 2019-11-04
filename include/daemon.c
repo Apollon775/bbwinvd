@@ -141,15 +141,19 @@ int recv_data(int sock, hdata_t *data, FILE *logfile)
         {
             buffer[size] = '\0';
             strcpy(data->interfaces[index]->ipv4, buffer);
+            size = send(sock, (char*)ACC, strlen(ACC), 0);
+            if (size != strlen(ACC))
+            {
+                logwrite(logfile, "Send() error", DLOG_MSG);
+            }
         }
+        
         
         size = recv(sock, buffer, BUFFER-1, 0);
         if (size > 0)
         {
             buffer[size] = '\0';
         }
-        
-        logwrite(logfile, data->interfaces[index]->ipv4, DLOG_MSG);
         
         
     } while (!(strcmp(buffer, "NXT")));
