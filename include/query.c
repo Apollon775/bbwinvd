@@ -35,7 +35,7 @@ int insert_data(MYSQL *handle, hdata_t *data)
     
     for (int i = 0; data->interfaces[i] != NULL; ++i)
     {    
-        sprintf(stm, "UPDATE interfaces SET IPv4 = \'%s\', Hostname = \'%s\', Eingegeben am = NOW() WHERE MAC = \'%s\' IF @@ROWCOUNT=0 INSERT INTO interfaces(MAC, IPv4, Hostname) VALUES(\'%s\', \'%s\', \'%s\')",
+        sprintf(stm, "UPDATE interfaces SET IPv4 = \'%s\', Hostname = \'%s\', Eingegeben am = NOW() WHERE MAC = \'%s\' IF @@ROWCOUNT = 0 INSERT INTO interfaces(MAC, IPv4, Hostname) VALUES(\'%s\', \'%s\', \'%s\')",
                 data->interfaces[i]->ipv4, data->name, data->interfaces[i]->physical, data->interfaces[i]->physical, data->interfaces[i]->ipv4, data->name);
     }
     if (mysql_query(handle, stm))
