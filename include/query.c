@@ -27,7 +27,7 @@ MYSQL* connect_sql()
 int insert_data(MYSQL *handle, hdata_t *data)
 {
     char stm[BUFFER];
-    sprintf(stm, "UPDATE fiae2019 SET OS = \'%s\' WHERE Hostname = \'%s\' IF @@ROWCOUNT=0 INSERT INTO fiae2019(Hostname, OS) VALUES(\'%s\', \'%s\')",
+    sprintf(stm, "UPDATE fiae2019 SET OS = \'%s\' WHERE Hostname = \'%s\' IF @@ROWCOUNT = 0 INSERT INTO fiae2019(Hostname, OS) VALUES(\'%s\', \'%s\')",
             data->kernel, data->name, data->name, data->kernel);
     
     if (mysql_query(handle, stm))
