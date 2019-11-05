@@ -27,18 +27,33 @@ MYSQL* connect_sql()
 int insert_data(MYSQL *handle, hdata_t *data)
 {
     char stm[BUFFER];
+    MYSQL_RES *result;
     
     // UPDATEN der Hosttabelle mit der neu erhalten Daten
     sprintf(stm, "UPDATE fiae2019 SET OS = \'%s\' WHERE Hostname = \'%s\'", data->kernel, data->name);
     if (mysql_query(handle, stm))
         return -1;
-    
+  
     if (mysql_affected_rows(handle) == 0)
     {
-        sprintf(stm, "INSERT INTO fiae2019 VALUES (\'%s\', \'%s\', \'%s\')", 
-                data->name, data->kernel, data->cpu);
+        sprintf(stm, "SELECT  * FROM fiae2019 WHERE Hostname = \'%s\'", data->name);
         if (mysql_query(handle, stm))
             return -1;
+        else
+            result = mysql_store_result(handle);
+    
+        if (mysql_num_rows(result) == 0)
+        {
+            sprintf(stm, "INSERT INTO fiae2019 VALUES (\'%s\', \'%s\', \'%s\')", 
+                    data->name, data->kernel, data->cpu);
+            if (mysql_query(handle, stm))
+            {
+                mysql_free_result(result);
+                return -1; 
+            }
+            mysql_free_result(result);
+        }
+    
     }
 
     //UPDATE der Interface-Tabelle
@@ -51,10 +66,23 @@ int insert_data(MYSQL *handle, hdata_t *data)
         
         if (mysql_affected_rows(handle) == 0)
         {
-            sprintf(stm, "INSERT INTO interfaces(MAC, IPv4, Hostname) VALUES(\'%s\', \'%s\',\'%s\')",
-                    data->interfaces[i]->physical, data->interfaces[i]->ipv4, data->name);
+            sprintf(stm, "SELECT  * FROM interfaces WHERE MAC = \'%s\'", data->interfaces[i]->physical);
             if (mysql_query(handle, stm))
                 return -1;
+            else 
+                result = mysql_store_result(handle);
+            
+            if (mysql_num_rows(result) == 0)
+            {
+                sprintf(stm, "INSERT INTO interfaces(MAC, IPv4, Hostname) VALUES(\'%s\', \'%s\',\'%s\')",
+                        data->interfaces[i]->physical, data->interfaces[i]->ipv4, data->name);
+                if (mysql_query(handle, stm))
+                {
+                    mysql_free_result(result);
+                    return -1;
+                }
+                mysql_free_result(result);
+            }
         }
     }
     
