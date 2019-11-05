@@ -35,7 +35,7 @@ int insert_data(MYSQL *handle, hdata_t *data)
     
     if (mysql_affected_rows(handle) == 0)
     {
-        sprintf(stm, "INSERT INTO fiae2019 (Hostname, OS, CPU-Modell) VALUES (\'%s\', \'%s\', \'%s\')", 
+        sprintf(stm, "INSERT INTO fiae2019 VALUES (\'%s\', \'%s\', \'%s\')", 
                 data->name, data->kernel, data->cpu);
         if (mysql_query(handle, stm))
             return -1;
