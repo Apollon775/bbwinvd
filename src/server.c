@@ -117,7 +117,7 @@ int main(void)
     listen (sock, 5);
     addrlen = sizeof(struct sockaddr_in);
     
-    hdata_t *data = hdata_init();
+    hdata_t *data;
     
     while(1)
     {
@@ -135,6 +135,7 @@ int main(void)
             continue;
         }
         
+        data = hdata_init();
         
         if (recv_data(new_sock, data, logfile) == 0)
         {
@@ -161,6 +162,8 @@ int main(void)
         
         sprintf(logmsg, "Session mit host %s geschlossen", inet_ntoa(addr.sin_addr));
         logwrite(logfile, logmsg, DLOG_MSG);
+        
+        hdata_del(data);
         
         close(new_sock);
     }
