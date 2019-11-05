@@ -27,20 +27,36 @@ MYSQL* connect_sql()
 int insert_data(MYSQL *handle, hdata_t *data)
 {
     char stm[BUFFER];
-    sprintf(stm, "UPDATE fiae2019 SET OS = \'%s\' WHERE Hostname = \'%s\'; SELECT IF( ROW_COUNT() = 0  THEN INSERT INTO fiae2019(Hostname, OS) VALUES(\'%s\', \'%s\')); ",
-            data->kernel, data->name, data->name, data->kernel);
     
+    // UPDATEN der Hosttabelle mit der neu erhalten Daten
+    sprintf(stm, "UPDATE fiae2019 SET OS = \'%s\' WHERE Hostname = \'%s\'", data->kernel, data->name);
     if (mysql_query(handle, stm))
         return -1;
     
+    if (mysql_affected_rows(handle) == 0)
+    {
+        sprintf(stm, "INSERT INTO fiae2019(Hostname, OS, CPU-Modell) VALUES(\'%s\', \'%s\', \'%s\')", 
+                data->name, data->kernel, data->cpu);
+        if (mysql_query(handle, stm))
+            return -1;
+    }
+
+    //UPDATE der Interface-Tabelle
     for (int i = 0; data->interfaces[i] != NULL; ++i)
     {    
-        sprintf(stm, "UPDATE interfaces SET IPv4 = \'%s\', Hostname = \'%s\', Eingegeben am = NOW() WHERE MAC = \'%s\' ; IF ROW_COUNT() = 0 THEN INSERT INTO interfaces(MAC, IPv4, Hostname) VALUES(\'%s\', \'%s\', \'%s\') ; END IF; ",
-                data->interfaces[i]->ipv4, data->name, data->interfaces[i]->physical, data->interfaces[i]->physical, data->interfaces[i]->ipv4, data->name);
+        sprintf(stm, "UPDATE interfaces SET IPv4 = \'%s\', Hostname = \'%s\', Eingegeben am = NOW() WHERE MAC = \'%s\'",
+                data->interfaces[i]->ipv4, data->name, data->interfaces[i]->physical);
+        if (mysql_query(handle, stm))
+            return -1;
+        
+        if (mysql_affected_rows(handle) == 0)
+        {
+            sprintf(stm, "INSERT INTO interfaces(MAC, IPv4, Hostname) VALUES(\'%s\', \'%s\',\'%s\')",
+                    data->interfaces[i]->physical, data->interfaces[i]->ipv4, data->name);
+            if (mysql_query(handle, stm))
+                return -1;
+        }
     }
-    if (mysql_query(handle, stm))
-        return -1;
-    
     
     return 0;
 }
@@ -59,6 +75,7 @@ hdata_t *hdata_init()
     
     return data;
 }
+
 
 void ifdata_del(ifdata_t **interfaces)
 {
@@ -83,7 +100,7 @@ void hdata_del(hdata_t *data)
     free(data);
 }
 
-int if_pushback( hdata_t *data)
+int if_pushback(hdata_t *data)
 {
     int index;
         

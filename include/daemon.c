@@ -80,6 +80,7 @@ int bind_sock(char *inetaddr, struct sockaddr_in *address, uint16_t port)
 }
 
 
+
 int recv_data(int sock, hdata_t *data, FILE *logfile)
 {
     char *buffer = malloc(BUFFER);
