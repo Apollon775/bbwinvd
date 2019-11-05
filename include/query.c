@@ -44,7 +44,7 @@ int insert_data(MYSQL *handle, hdata_t *data)
     //UPDATE der Interface-Tabelle
     for (int i = 0; data->interfaces[i] != NULL; ++i)
     {    
-        sprintf(stm, "UPDATE interfaces SET IPv4 = \'%s\', Hostname = \'%s\', `Eingegeben am` = CURRENT_TIMESTAMP() WHERE MAC = \'%s\'",
+        sprintf(stm, "UPDATE interfaces SET IPv4 = \'%s\', Hostname = \'%s\', `Eingetragen am` = CURRENT_TIMESTAMP() WHERE MAC = \'%s\'",
                 data->interfaces[i]->ipv4, data->name, data->interfaces[i]->physical);
         if (mysql_query(handle, stm))
             return -1;
